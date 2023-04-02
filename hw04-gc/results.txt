@@ -1,0 +1,13 @@
+-Xms256m -Xmx256m OUT OF MEMORY
+-Xms320m -Xmx320m spend msec:5699, sec:5
+-Xms512m -Xmx512m spend msec:4170, sec:4
+-Xms1024m -Xmx1024m spend msec:3310, sec:3
+-Xms2048m -Xmx2048m spend msec:2960, sec:2
+
+-Xms4096m -Xmx4096m spend msec:3058, sec:3
+-Xms4096m -Xmx4096m spend msec:3056, sec:3
+-Xms4096m -Xmx4096m spend msec:2988, sec:2
+
+Лучший результат - 2048Mb
+
+Integer -> int -Xms1024m -Xmx1024m  spend msec:779, sec:0
