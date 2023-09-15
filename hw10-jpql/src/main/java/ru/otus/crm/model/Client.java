@@ -2,10 +2,11 @@ package ru.otus.crm.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,7 @@ public class Client implements Cloneable {
     private Address address;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "client")
+    @Fetch(FetchMode.SELECT)
     private List<Phone> phones = new ArrayList<>();
 
     public Client(Long id, String name, Address address, List<Phone> phones) {
