@@ -2,11 +2,13 @@ package ru.otus.crm.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,31 +28,42 @@ public class Client implements Cloneable {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "client")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "client")
     private List<Phone> phones = new ArrayList<>();
 
-    public Client(String name) {
-        this.id = null;
+    public Client(Long id, String name, Address address, List<Phone> phones) {
+        this.id = id;
         this.name = name;
+        this.addAddress(address);
+        this.addPhones(phones);
     }
 
     public Client(Long id, String name) {
-        this.id = id;
-        this.name = name;
+        this(id, name, null, Collections.emptyList());
+    }
+
+    public Client(String name) {
+        this(null, name, null, Collections.emptyList());
     }
 
     public void addAddress(Address address) {
-        this.address = address;
-        this.address.setClient(this);
+        if (address != null) {
+            this.address = address;
+            this.address.setClient(this);
+        }
     }
 
     public void addPhone(Phone phone) {
         this.phones.add(phone);
         phone.setClient(this);
+    }
+
+    public void addPhones(List<Phone> phone) {
+        phone.forEach(this::addPhone);
     }
 
     @Override
@@ -69,9 +82,10 @@ public class Client implements Cloneable {
         return "Client{" + "id=" + id + ", name='" + name + '\'' + '}';
     }
 
+
     private void cloneAndLinkWithClient(Phone phone, Client client) {
         var copyOfPhone = phone.clone();
-        copyOfPhone.addClient(client);
         client.phones.add(copyOfPhone);
+        copyOfPhone.setClient(client);
     }
 }

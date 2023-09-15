@@ -33,11 +33,6 @@ public class Phone {
         this(null, number);
     }
 
-    public void addClient(Client client) {
-        this.client = client;
-        client.getPhones().add(this);
-    }
-
     @Override
     protected Phone clone() {
         return new Phone(this.id, this.number);
