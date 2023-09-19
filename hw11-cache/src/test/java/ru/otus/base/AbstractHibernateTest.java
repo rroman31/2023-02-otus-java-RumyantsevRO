@@ -7,6 +7,8 @@ import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import ru.otus.core.cache.HwCache;
+import ru.otus.core.cache.MyCache;
 import ru.otus.core.repository.DataTemplateHibernate;
 import ru.otus.core.repository.HibernateUtils;
 import ru.otus.core.sessionmanager.TransactionManagerHibernate;
@@ -57,7 +59,9 @@ public abstract class AbstractHibernateTest {
 
         transactionManager = new TransactionManagerHibernate(sessionFactory);
         clientTemplate = new DataTemplateHibernate<>(Client.class);
-        dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
+
+        HwCache<String, Client> cache = new MyCache<>(1000);
+        dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate, cache);
     }
 
     protected EntityStatistics getUsageStatistics() {
