@@ -54,14 +54,16 @@ public class Client implements Cloneable {
 
     public void addAddress(Address address) {
         if (address != null) {
-            this.address = address;
-            this.address.setClient(this);
+            var cloneAddress = address.clone();
+            cloneAddress.setClient(this);
+            this.address = cloneAddress;
         }
     }
 
     public void addPhone(Phone phone) {
-        this.phones.add(phone);
-        phone.setClient(this);
+        var clonePhone = phone.clone();
+        this.phones.add(clonePhone);
+        clonePhone.setClient(this);
     }
 
     public void addPhones(List<Phone> phone) {
