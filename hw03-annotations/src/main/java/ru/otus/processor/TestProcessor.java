@@ -3,9 +3,9 @@ package ru.otus.processor;
 import ru.otus.annotations.After;
 import ru.otus.annotations.Before;
 import ru.otus.annotations.Test;
-import ru.otus.model.AnnotationsNames;
-import ru.otus.model.TestMethodResult;
-import ru.otus.model.TestResult;
+import ru.otus.dto.AnnotationsNames;
+import ru.otus.dto.TestMethodResult;
+import ru.otus.dto.TestResult;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.otus.model.AnnotationsNames.*;
+import static ru.otus.dto.AnnotationsNames.*;
 
 public class TestProcessor {
     private final String PASSED = "PASSED";

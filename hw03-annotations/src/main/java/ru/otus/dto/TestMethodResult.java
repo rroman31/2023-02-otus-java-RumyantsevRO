@@ -1,4 +1,4 @@
-package ru.otus.model;
+package ru.otus.dto;
 
 import java.lang.reflect.Method;
 
