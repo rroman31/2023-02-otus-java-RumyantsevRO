@@ -1,4 +1,4 @@
-package ru.otus.model;
+package ru.otus.dto;
 
 public enum AnnotationsNames {
     BEFORE, AFTER, TEST

@@ -1,5 +1,5 @@
 
-package ru.otus.model;
+package ru.otus.dto;
 
 import java.util.ArrayList;
 import java.util.Collections;
