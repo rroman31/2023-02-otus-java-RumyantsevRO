@@ -3,6 +3,7 @@ include("hw01-gradle")
 include("hw02-collections")
 include("hw03-annotations")
 include("hw04-gc")
+include("hw07-patterns")
 include("hw10-jpql")
 include("hw12-web-server")
 
