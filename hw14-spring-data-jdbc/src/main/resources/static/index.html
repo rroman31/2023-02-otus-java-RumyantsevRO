@@ -1,0 +1,56 @@
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>Clients App</h2>
+<h3> Client Table: </h3>
+<div id="container"></div>
+<div id="buttons">
+    <div id="button">
+        <button style="height:30px;width:200px;margin: 10px" type="button" onclick="removeClient()">Remove</button>
+    </div>
+</div>
+<div style="display:block;" id="cli_creation:">
+    <h4>Create client:</h4>
+    <form>
+        <label for="creation_cli_name">Name:</label><br>
+        <input type="text" id="creation_cli_name" name="name"><br>
+        <label for="creation_cli_street">Street:</label><br>
+        <input type="text" id="creation_cli_street" name="address"><br>
+        <label for="creation_cli_phone">Phone number:</label><br>
+        <input type="text" id="creation_cli_phone" name="phone">
+    </form>
+    <button style="height:30px;width:200px;margin: 10px" type="button" onclick="addClient()">Add</button>
+</div>
+
+<div style="display:block" id="cli_update:">
+    <h4>Update client:</h4>
+    <form>
+        <label for="update_cli_id">id:</label><br>
+        <input type="text" id="update_cli_id" name="id"><br>
+        <label for="update_cli_name">Name:</label><br>
+        <input type="text" id="update_cli_name" name="name"><br>
+        <label for="update_cli_street">Street:</label><br>
+        <input type="text" id="update_cli_street" name="address"><br>
+        <label for="update_cli_phone">Phone number:</label><br>
+        <input type="text" id="update_cli_phone" name="phone">
+    </form>
+    <button style="height:30px;width:200px;margin: 10px" type="button" onclick="updateClient()">Update</button>
+</div>
+<script src="js/script.js"></script>
+<script>
+    createTable();
+    loadClients();
+</script>
+</body>
+</html>
