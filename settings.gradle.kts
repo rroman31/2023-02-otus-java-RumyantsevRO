@@ -5,6 +5,7 @@ include("hw03-annotations")
 include("hw04-gc")
 include("hw10-jpql")
 include("hw12-web-server")
+include("hw15-queues")
 
 pluginManagement {
     val jgitver: String by settings
