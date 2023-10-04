@@ -5,6 +5,8 @@ include("hw03-annotations")
 include("hw04-gc")
 include("hw10-jpql")
 include("hw12-web-server")
+include("hw18-webflux:client-service")
+include("hw18-webflux:datastore-service")
 
 pluginManagement {
     val jgitver: String by settings
