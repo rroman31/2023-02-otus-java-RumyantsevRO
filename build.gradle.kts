@@ -44,6 +44,7 @@ allprojects {
     val cassandra: String by project
     val neo4j: String by project
     val jedis: String by project
+    val grpc: String by project
 
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
@@ -71,71 +72,68 @@ allprojects {
             dependency("org.neo4j.driver:neo4j-java-driver:$neo4j")
             dependency("redis.clients:jedis:$jedis")
 
+            dependency("io.grpc:grpc-netty:$grpc")
+            dependency("io.grpc:grpc-protobuf:$grpc")
+            dependency("io.grpc:grpc-stub:$grpc")
+
         }
-    }
-    configurations.all {
-        resolutionStrategy {
-            failOnVersionConflict()
+        configurations.all {
+            resolutionStrategy {
+                failOnVersionConflict()
 
-            force("javax.servlet:servlet-api:2.4")
-            force("commons-logging:commons-logging:1.1.1")
-            force("commons-lang:commons-lang:2.5")
-            force("org.codehaus.jackson:jackson-core-asl:1.8.8")
-            force("org.codehaus.jackson:jackson-mapper-asl:1.8.3")
-            force("org.codehaus.jettison:jettison:1.1")
-            force("net.java.dev.jna:jna:5.8.0")
-            force("com.google.errorprone:error_prone_annotations:2.7.1")
-        }
-    }
-}
-
-subprojects {
-    plugins.apply(JavaPlugin::class.java)
-    extensions.configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    tasks.withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.compilerArgs.addAll(listOf("-Xlint:all,-serial,-processing", "-Werror"))
-    }
-
-    plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
-    extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
-        strategy("PATTERN")
-        nonQualifierBranches("main,master")
-        tagVersionPattern("\${v}\${<meta.DIRTY_TEXT}")
-        versionPattern(
-                "\${v}\${<meta.COMMIT_DISTANCE}\${<meta.GIT_SHA1_8}" +
-                        "\${<meta.QUALIFIED_BRANCH_NAME}\${<meta.DIRTY_TEXT}-SNAPSHOT"
-        )
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        testLogging.showExceptions = true
-        reports {
-            junitXml.required.set(true)
-            html.required.set(true)
-        }
-    }
-}
-
-tasks {
-    val hello by registering {
-        doLast {
-            println("hello task")
+                force("javax.servlet:servlet-api:2.4")
+                force("commons-logging:commons-logging:1.1.1")
+                force("commons-lang:commons-lang:2.5")
+                force("org.codehaus.jackson:jackson-core-asl:1.8.8")
+                force("org.codehaus.jackson:jackson-mapper-asl:1.8.3")
+                force("org.codehaus.jettison:jettison:1.1")
+                force("net.java.dev.jna:jna:5.8.0")
+                force("com.google.errorprone:error_prone_annotations:2.7.1")
+            }
         }
     }
 
-    val managedVersions by registering {
-        doLast {
-            project.extensions.getByType<DependencyManagementExtension>()
-                    .managedVersions
-                    .toSortedMap()
-                    .map { "${it.key}:${it.value}" }
-                    .forEach(::println)
+    subprojects {
+        plugins.apply(JavaPlugin::class.java)
+        extensions.configure<JavaPluginExtension> {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+
+        tasks.withType<JavaCompile> {
+            options.encoding = "UTF-8"
+            options.compilerArgs.addAll(listOf("-Xlint:all,-serial,-processing", "-Werror"))
+        }
+
+        plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
+        extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
+            strategy("PATTERN")
+            nonQualifierBranches("main,master")
+            tagVersionPattern("\${v}\${<meta.DIRTY_TEXT}")
+            versionPattern("\${v}\${<meta.COMMIT_DISTANCE}\${<meta.GIT_SHA1_8}" + "\${<meta.QUALIFIED_BRANCH_NAME}\${<meta.DIRTY_TEXT}-SNAPSHOT")
+        }
+
+        tasks.withType<Test> {
+            useJUnitPlatform()
+            testLogging.showExceptions = true
+            reports {
+                junitXml.required.set(true)
+                html.required.set(true)
+            }
+        }
+    }
+
+    tasks {
+        val hello by registering {
+            doLast {
+                println("hello task")
+            }
+        }
+
+        val managedVersions by registering {
+            doLast {
+                project.extensions.getByType<DependencyManagementExtension>().managedVersions.toSortedMap().map { "${it.key}:${it.value}" }.forEach(::println)
+            }
         }
     }
 }
